@@ -1,8 +1,6 @@
 /* unicorn.css
-   Detailed, "real" cute unicorn rendered via :root pseudo-elements (no HTML changes).
-   Larger SVG data-URI for richer visuals: body shading, defined muzzle, horn spirals,
-   layered colorful mane/tail, eye highlight, rosy cheek, and multiple sparkles.
-   Animation preserved; respects prefers-reduced-motion.
+   Small kawaii/chibi unicorn (data-URI) replacing previous larger SVG.
+   Preserves animation, wake, and reduced-motion handling.
 */
 
 :root{
@@ -26,88 +24,59 @@
   z-index: 9999;
   transform: translateX(-300px) scale(0.8);
   opacity: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 360' preserveAspectRatio='xMidYMid meet'>\
-<defs>\
-  <linearGradient id='hornGrad' x1='0' x2='1'>\
-    <stop offset='0' stop-color='%23fff8d9'/>\
-    <stop offset='1' stop-color='%23ffd1f0'/>\
-  </linearGradient>\
-  <linearGradient id='mane1' x1='0' x2='1'>\
-    <stop offset='0' stop-color='%23ff6b6b'/>\
-    <stop offset='0.45' stop-color='%23ffd580'/>\
-    <stop offset='0.75' stop-color='%236bb0ff'/>\
-    <stop offset='1' stop-color='%23c38cff'/>\
-  </linearGradient>\
-  <linearGradient id='bodySh' x1='0' x2='1'>\
-    <stop offset='0' stop-color='%23ffffff'/>\
-    <stop offset='1' stop-color='%23f2f2f6'/>\
-  </linearGradient>\
-  <filter id='soft' x='-50%' y='-50%' width='200%' height='200%'>\
-    <feGaussianBlur stdDeviation='2' result='b'/>\
-    <feMerge><feMergeNode in='b'/><feMergeNode in='SourceGraphic'/></feMerge>\
-  </filter>\
-</defs>\
-<!-- shadow -->\
-<ellipse cx='280' cy='320' rx='140' ry='20' fill='%23000000' opacity='0.06'/>\
-<!-- body (more compact pony shape) -->\
-<g transform='translate(40,30)'>\
-  <path d='M180 200 C120 190,80 150,96 120 C112 92,160 72,214 78 C268 84,330 98,374 118 C420 140,452 172,426 194 C392 216,342 208,292 216 C268 220,238 226,204 222 C186 220,158 218,132 214 C116 212,96 210,80 204 C68 200,56 196,48 188 Z' fill='url(%23bodySh)' stroke='%23ececf0' stroke-width='2'/>\
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' preserveAspectRatio='xMidYMid meet'>\
+  <defs>\
+    <linearGradient id='gHorn' x1='0' x2='1'><stop offset='0' stop-color='%23fff9e6'/><stop offset='1' stop-color='%23ffd27a'/></linearGradient>\
+    <linearGradient id='gBody' x1='0' x2='1'><stop offset='0' stop-color='%23ffffff'/><stop offset='1' stop-color='%23f2f2f6'/></linearGradient>\
+    <filter id='soft' x='-50%' y='-50%' width='200%' height='200%'><feGaussianBlur stdDeviation='1.5' result='b'/><feMerge><feMergeNode in='b'/><feMergeNode in='SourceGraphic'/></feMerge></filter>\
+  </defs>\
+  <!-- shadow -->\
+  <ellipse cx='110' cy='200' rx='60' ry='8' fill='%23000000' opacity='0.06'/>\
+  <!-- rump -->\
+  <ellipse cx='154' cy='118' rx='28' ry='22' fill='%23ffffff' stroke='%23e6e6e6' stroke-width='1'/>\
+  <!-- body -->\
+  <path d='M66 96 C56 94,44 84,48 74 C52 62,68 54,90 50 C118 46,142 54,164 62 C190 72,206 88,196 100 C180 116,150 110,120 114 C98 116,80 118,66 116 C56 114,46 110,40 104 Z' fill='url(%23gBody)' stroke='%23ececf0' stroke-width='1'/>\
   <!-- belly shading -->\
-  <path d='M150 160 C132 154,124 144,134 130 C146 114,172 106,200 110 C232 114,268 122,304 134 C334 144,360 158,372 168 C340 178,306 170,276 174 C250 178,218 180,186 170 C158 184,142 180,136 176 Z' fill='%23f7f7fb' opacity='0.95'/>\
-  <!-- neck and head connection (defined neck) -->\
-  <g transform='translate(56,-8)'>\
-    <path d='M72 78 C56 66,48 46,58 36 C70 24,92 20,116 28 C136 34,154 46,160 66 C166 86,150 102,130 110 C112 118,92 116,78 108 Z' fill='%23ffffff' stroke='%23e9e9ef' stroke-width='1.5'/>\
-    <!-- muzzle rounded -->\
-    <path d='M102 110 C110 114,126 116,146 112 C150 110,154 106,154 100 C154 94,150 90,142 88 C128 84,114 88,104 96 C100 100,100 106,102 110 Z' fill='%23fffdfd' stroke='%23efeef3' stroke-width='1'/>\
-    <!-- nostril -->\
-    <ellipse cx='142' cy='100' rx='2' ry='1.5' fill='%23121a21' opacity='0.9'/>\
-    <!-- eye with larger cute shape and highlight -->\
-    <g transform='translate(118,76)'>\
-      <ellipse rx='10' ry='8' fill='%23121a21'/>\
-      <ellipse cx='-3' cy='-3' rx='3' ry='2.5' fill='%23fff' opacity='0.95'/>\
-      <ellipse cx='4' cy='2' rx='1.8' ry='1.2' fill='%23fff' opacity='0.9'/>\
-    </g>\
-    <!-- cheek blush -->\
-    <circle cx='150' cy='104' r='8' fill='%23ffd2e0' opacity='0.95'/>\
+  <path d='M100 104 C88 100,82 92,90 82 C100 70,118 66,136 70 C156 74,174 82,188 92 C166 98,142 96,120 98 C104 100,92 100,84 98 Z' fill='%23f7f7fb' opacity='0.95'/>\
+  <!-- neck & head group -->\
+  <g transform='translate(10,0)'>\
+    <!-- head -->\
+    <circle cx='70' cy='56' r='34' fill='%23ffffff' stroke='%23e9e9ef' stroke-width='1.2'/>\
     <!-- ear -->\
-    <path d='M88 48 C86 36,96 28,108 30 C114 32,118 42,110 50 C100 54,92 52,88 48 Z' fill='%23fff3f8' stroke='%23f0e9f0' stroke-width='1'/>\
-    <!-- horn (slightly curved) -->\
-    <g transform='translate(106,22)'>\
-      <path d='M0 0 L12 -54 L26 0 Z' fill='url(%23hornGrad)' stroke='%23f7e6fb' stroke-width='1'/>\
-      <path d='M12 -8 L10 -2 M12 -20 L8 -10 M12 -34 L6 -18' stroke='%23f6c3e8' stroke-width='2' stroke-linecap='round' opacity='0.95'/>\
+    <path d='M58 30 C56 22,64 18,74 20 C80 22,82 28,76 34 C68 36,62 34,58 30 Z' fill='%23fff3f8' stroke='%23f0e9f0' stroke-width='0.8'/>\
+    <!-- horn -->\
+    <g transform='translate(84,8) rotate(-12)'>\
+      <path d='M0 0 L8 -36 L16 0 Z' fill='url(%23gHorn)' stroke='%23f7e6fb' stroke-width='0.8'/>\
+      <path d='M8 -6 L7 -2 M8 -14 L6 -6 M8 -22 L5 -10' stroke='%23f6c3e8' stroke-width='0.9' stroke-linecap='round'/>\
     </g>\
-    <!-- frontal mane tuft -->\
-    <g transform='translate(68,58)'>\
-      <path d='M0 0 C-6 8,-18 26,-30 44' stroke='%23ff6b6b' stroke-width='14' stroke-linecap='round' fill='none' opacity='0.98'/>\
-      <path d='M6 6 C0 18,-14 40,-28 64' stroke='%23ffd580' stroke-width='12' stroke-linecap='round' fill='none' opacity='0.95'/>\
-      <path d='M16 12 C10 28,-6 54,-24 84' stroke='%236bb0ff' stroke-width='10' stroke-linecap='round' fill='none' opacity='0.9'/>\
-      <path d='M26 18 C22 38,10 68,-6 98' stroke='%23c38cff' stroke-width='8' stroke-linecap='round' fill='none' opacity='0.88'/>\
-    </g>\
+    <!-- forelock/mane pieces -->\
+    <path d='M58 44 C52 50,40 66,30 86' stroke='%23ff9bd6' stroke-width='10' stroke-linecap='round' fill='none'/>\
+    <path d='M64 48 C60 60,50 78,42 100' stroke='%23ffd27a' stroke-width='8' stroke-linecap='round' fill='none'/>\
+    <path d='M72 52 C68 66,60 86,54 110' stroke='%239be6ff' stroke-width='7' stroke-linecap='round' fill='none'/>\
+    <path d='M80 56 C78 74,70 98,64 126' stroke='%23c1a0ff' stroke-width='6' stroke-linecap='round' fill='none'/>\
+    <!-- eye -->\
+    <ellipse cx='78' cy='62' rx='6' ry='5' fill='%231b1b1b'/>\
+    <circle cx='75' cy='59' r='2.2' fill='%23fff' opacity='0.95'/>\
+    <circle cx='81' cy='64' r='1.4' fill='%23fff' opacity='0.9'/>\
+    <!-- cheek -->\
+    <circle cx='92' cy='76' r='6' fill='%23ffb6d9' opacity='0.95'/>\
+    <!-- muzzle -->\
+    <path d='M92 84 C96 86,102 86,110 84 C112 82,114 78,114 74 C114 70,112 68,108 66 C102 64,96 66,92 70 C90 72,90 76,92 84 Z' fill='%23fffdfd' stroke='%23efeef3' stroke-width='0.6'/>\
   </g>\
-  <!-- legs (clearly separated, bent foreleg, rounded hooves) -->\
-  <g transform='translate(92,120)'>\
-    <!-- front leg (bent) -->\
-    <path d='M48 26 C50 60,54 96,58 126 C60 138,74 138,84 138 C94 138,96 124,94 116 C92 106,88 80,86 64 C84 52,74 38,64 30 C58 24,52 22,48 26 Z' fill='%23ffffff' stroke='%23eaeaea' stroke-width='1'/>\
-    <ellipse cx='86' cy='138' rx='12' ry='8' fill='%23e0e0e5'/>\
-    <!-- back leg (standing) -->\
-    <path d='M180 40 C182 82,186 116,188 142 C190 156,204 156,214 156 C224 156,228 142,226 132 C224 120,220 94,218 76 C216 58,204 46,188 40 C178 36,172 36,180 40 Z' fill='%23ffffff' stroke='%23eaeaea' stroke-width='1'/>\
-    <ellipse cx='226' cy='156' rx='12' ry='8' fill='%23e0e0e5'/>\
+  <!-- legs -->\
+  <rect x='74' y='138' width='12' height='28' rx='4' fill='%23ffffff' stroke='%23e6e6e6'/>\
+  <rect x='110' y='132' width='12' height='34' rx='4' fill='%23ffffff' stroke='%23e6e6e6'/>\
+  <ellipse cx='120' cy='166' rx='8' ry='4' fill='%23e0e0e5'/>\
+  <ellipse cx='80' cy='166' rx='8' ry='4' fill='%23e0e0e5'/>\
+  <!-- tail -->\
+  <g transform='translate(170,120) rotate(12)'>\
+    <path d='M0 0 C-10 -8,-24 -20,-44 -36' stroke='%23ff9bd6' stroke-width='8' stroke-linecap='round' fill='none'/>\
+    <path d='M2 4 C-8 -6,-22 -22,-44 -42' stroke='%23ffd27a' stroke-width='7' stroke-linecap='round' fill='none'/>\
+    <path d='M6 8 C-6 -4,-18 -18,-40 -40' stroke='%239be6ff' stroke-width='6' stroke-linecap='round' fill='none'/>\
   </g>\
-  <!-- tail (full, layered and curved) -->\
-  <g transform='translate(364,124) rotate(8)'>\
-    <path d='M0 0 C28 -8,64 -28,112 -58 C148 -80,182 -98,212 -120' stroke='%23ff6b6b' stroke-width='18' stroke-linecap='round' fill='none' opacity='0.98'/>\
-    <path d='M6 6 C36 -6,74 -30,124 -64 C162 -86,202 -110,236 -134' stroke='%23ffd580' stroke-width='14' stroke-linecap='round' fill='none' opacity='0.95'/>\
-    <path d='M14 12 C52 -4,100 -36,148 -76 C188 -104,232 -138,276 -170' stroke='%236bb0ff' stroke-width='12' stroke-linecap='round' fill='none' opacity='0.9'/>\
-    <path d='M22 18 C70 0,130 -42,182 -90 C230 -134,288 -182,342 -228' stroke='%23c38cff' stroke-width='10' stroke-linecap='round' fill='none' opacity='0.88'/>\
-  </g>\
-  <!-- sparkles (more playful placement) -->\
-  <g fill='%23fff6d1' opacity='0.95'>\
-    <circle cx='420' cy='40' r='4'/>\
-    <rect x='412' y='20' width='6' height='28' rx='2' transform='rotate(18 415 34)' opacity='0.5'/>\
-    <circle cx='52' cy='30' r='3.5'/>\
-    <circle cx='96' cy='58' r='2.5'/>\
-  </g>\
-</g>\
+  <!-- small sparkles -->\
+  <circle cx='40' cy='28' r='3.2' fill='%23fff6d1' opacity='0.95'/>\
+  <rect x='34' y='12' width='4.4' height='18' rx='1' transform='rotate(18 36 21)' fill='%23fff6d1' opacity='0.45'/>\
 </svg>");
   background-repeat: no-repeat;
   background-size: contain;
