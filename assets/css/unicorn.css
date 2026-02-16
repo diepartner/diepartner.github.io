@@ -1,92 +1,103 @@
 /* unicorn.css
-   CSS-only unicorn rendered via :root::after (no HTML changes).
-   Purely decorative; animation runs with CSS variables and respects reduced-motion.
+   Enhanced CSS-only unicorn via :root pseudo-elements (no HTML changes).
+   More detailed inline SVG (data-URI) for a clearer unicorn silhouette and colorful mane.
+   Animation and wake preserved; respects reduced-motion.
 */
 
-/* Defaults for surf animation; can be overridden with :root custom properties */
 :root{
   --surf-duration: 6s;
   --surf-delay: 0s;
-  --surf-scale: 0.92;
-  --unicorn-width: 120px;
-  --unicorn-height: 80px;
+  --surf-scale: 0.95;
+  --unicorn-width: 160px;
+  --unicorn-height: 110px;
 }
 
-/* Create the decorative unicorn as a pseudo-element on :root so no HTML change is required */
+/* Unicorn sprite as background on :root::after (decorative) */
 :root::after{
   content: "";
   position: fixed;
-  bottom: 8vh;
+  bottom: 9vh;
   left: 0;
   width: var(--unicorn-width);
   height: var(--unicorn-height);
   pointer-events: none;
   z-index: 9999;
-  transform: translateX(-140px) scale(0.9);
+  transform: translateX(-220px) scale(0.8);
   opacity: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 80'><g fill='none' stroke='none'><path d='M10 60 C14 50, 26 46, 38 48 C50 50, 60 44, 72 44 C84 44,96 50,106 52' stroke='%23ffffff' stroke-width='4' stroke-linecap='round' fill='none'/><ellipse cx='36' cy='52' rx='6' ry='4' fill='%23ffffff'/><path d='M40 38 C44 30,54 28,60 36' fill='%23ffd580' stroke='%23ffefc9' stroke-width='1'/><polygon points='60,36 66,22 70,36' fill='%23ff6b6b'/><rect x='30' y='44' width='10' height='8' rx='2' ry='2' fill='%23ffffff'/><circle cx='34' cy='50' r='1.5' fill='%23111'/></g></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 220'><defs><linearGradient id='m1' x1='0' x2='1'><stop offset='0' stop-color='%23ff6b6b'/><stop offset='0.35' stop-color='%23ffd580'/><stop offset='0.7' stop-color='%236bb0ff'/><stop offset='1' stop-color='%23c38cff'/></linearGradient></defs><g fill='none' stroke='none' transform='scale(0.9) translate(8 8)'><!-- body --><path d='M60 150 C30 140,28 110,46 90 C64 70,110 64,150 72 C190 80,230 86,260 106 C280 118,296 144,270 154 C240 166,200 150,160 154 C140 156,110 158,90 154 C80 152,68 152,60 150Z' fill='%23ffffff' stroke='%23f0f0f0' stroke-width='2'/> <!-- legs --> <path d='M120 150 L120 190 L132 190 L134 150 Z' fill='%23ffffff' stroke='%23e6e6e6' stroke-width='1'/> <path d='M170 148 L170 190 L182 190 L184 148 Z' fill='%23ffffff' stroke='%23e6e6e6' stroke-width='1'/> <!-- head --> <path d='M64 110 C52 100,54 84,70 78 C84 72,104 74,116 84 C126 92,126 104,118 112 C110 120,86 120,72 118 Z' fill='%23ffffff' stroke='%23eaeaea' stroke-width='1.5'/> <!-- eye --> <circle cx='96' cy='98' r='4' fill='%23111'/> <!-- horn --> <path d='M74 74 L82 40 L90 74 Z' fill='url(%23m1)' stroke='%23f8d9f0' stroke-width='1'/> <!-- mane stripes --> <path d='M80 78 C72 70,66 62,58 54' stroke='url(%23m1)' stroke-width='8' stroke-linecap='round' fill='none'/> <path d='M88 84 C84 76,80 68,76 60' stroke='%23ffd580' stroke-width='6' stroke-linecap='round' fill='none'/> <path d='M92 88 C92 80,92 72,96 64' stroke='%236bb0ff' stroke-width='6' stroke-linecap='round' fill='none'/> <!-- tail --> <path d='M248 128 C268 120,284 110,298 100' stroke='url(%23m1)' stroke-width='10' stroke-linecap='round' fill='none'/> <!-- cheek blush --> <circle cx='108' cy='108' r='6' fill='%23ffd2e0' opacity='0.9'/> <!-- decorative sparkle --> <g transform='translate(220,40) scale(0.9)'><circle cx='0' cy='0' r='5' fill='%23ffd580'/><rect x='-2' y='-10' width='4' height='20' fill='%23ffd580' opacity='0.6' transform='rotate(25)'/></g></g></svg>");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   will-change: transform, opacity;
   animation:
-    surf-in 900ms ease-out forwards,
+    surf-in 900ms cubic-bezier(.22,.9,.3,1) forwards,
     surf-move var(--surf-duration) ease-in-out var(--surf-delay) infinite alternate;
 }
 
-/* entrance animation */
+/* Entrances and motion for the unicorn */
 @keyframes surf-in{
-  from{ transform: translateX(-140px) translateY(20px) scale(.6); opacity:0; }
+  from{ transform: translateX(-220px) translateY(20px) scale(.5); opacity:0; }
   to  { transform: translateX(0) translateY(0) scale(var(--surf-scale)); opacity:1; }
 }
 
-/* back-and-forth path across wide parts of the viewport */
 @keyframes surf-move{
-  0%   { transform: translateX(0) scale(var(--surf-scale)) rotate(-6deg); }
-  12%  { transform: translateX(8vw)  scale(calc(var(--surf-scale) * 1.02)) rotate(-2deg); }
-  25%  { transform: translateX(18vw) scale(var(--surf-scale)) rotate(0deg); }
-  40%  { transform: translateX(34vw) scale(calc(var(--surf-scale) * 1.04)) rotate(4deg); }
-  60%  { transform: translateX(56vw) scale(var(--surf-scale)) rotate(-3deg); }
-  80%  { transform: translateX(78vw) scale(calc(var(--surf-scale) * 1.02)) rotate(2deg); }
+  0%   { transform: translateX(0)   scale(var(--surf-scale)) rotate(-6deg); }
+  20%  { transform: translateX(14vw) scale(calc(var(--surf-scale)*1.02)) rotate(-2deg); }
+  40%  { transform: translateX(32vw) scale(var(--surf-scale)) rotate(1deg); }
+  60%  { transform: translateX(52vw) scale(calc(var(--surf-scale)*1.03)) rotate(3deg); }
+  80%  { transform: translateX(72vw) scale(calc(var(--surf-scale)*1.01)) rotate(-2deg); }
   100% { transform: translateX(92vw) scale(var(--surf-scale)) rotate(-6deg); }
 }
 
-/* colorful wake under the unicorn, implemented as another pseudo-element via :root::before */
+/* Colorful wake under unicorn via :root::before */
 :root::before{
   content: "";
   position: fixed;
-  bottom: calc(8vh - 6px);
+  bottom: calc(9vh - 10px);
   left: 0;
-  width: var(--unicorn-width);
-  height: 12px;
+  width: calc(var(--unicorn-width) * 1.1);
+  height: 16px;
   pointer-events: none;
   z-index: 9998;
-  transform: translateX(-140px);
+  transform: translateX(-220px) scaleX(0.9);
   opacity: 0;
-  background: linear-gradient(90deg,#ffd580,#ff6b6b,#6bb0ff);
+  background: linear-gradient(90deg,#ffd580 0%,#ff6b6b 40%,#6bb0ff 70%,#c38cff 100%);
   border-radius: 999px;
-  filter: blur(6px);
+  filter: blur(6px) saturate(120%);
   mix-blend-mode: screen;
   will-change: transform, opacity;
   animation:
-    surf-in-wake 900ms ease-out forwards,
-    wake-move var(--surf-duration) ease-in-out var(--surf-delay) infinite alternate;
+    surf-in-wake 900ms cubic-bezier(.22,.9,.3,1) forwards,
+    wake-move calc(var(--surf-duration) * 0.98) ease-in-out var(--surf-delay) infinite alternate;
 }
 
-/* wake entrance aligns with unicorn */
 @keyframes surf-in-wake{
-  from{ transform: translateX(-140px) translateY(10px) scale(.6); opacity:0; }
-  to  { transform: translateX(0) translateY(0) scale(1); opacity:0.9; }
+  from{ transform: translateX(-220px) translateY(10px) scale(.5); opacity:0; }
+  to  { transform: translateX(0) translateY(0) scale(1); opacity:0.95; }
 }
 
-/* wake follows same general motion but with subtler scaling */
 @keyframes wake-move{
-  0%   { transform: translateX(0) scaleX(0.9); opacity:0.85; }
-  50%  { transform: translateX(46vw) scaleX(1)  translateY(-6px); opacity:1; }
+  0%   { transform: translateX(0)   scaleX(0.9); opacity:0.85; }
+  50%  { transform: translateX(46vw) scaleX(1) translateY(-6px); opacity:1; }
   100% { transform: translateX(92vw) scaleX(0.9); opacity:0.85; }
 }
 
-/* Respect reduced motion: simplify to a static decorative placement */
+/* Slight shimmer on the unicorn by tint overlay via another pseudo (rarely used) */
+@media (prefers-reduced-motion: no-preference) {
+  :root::after{
+    /* subtle pulse */
+    animation: surf-in 900ms cubic-bezier(.22,.9,.3,1) forwards,
+               surf-move var(--surf-duration) ease-in-out var(--surf-delay) infinite alternate,
+               pulse 8s ease-in-out var(--surf-delay) infinite;
+  }
+  @keyframes pulse{
+    0% { filter: drop-shadow(0 0 0 rgba(255,255,255,0)); }
+    50% { filter: drop-shadow(0 6px 8px rgba(255,200,255,0.04)); }
+    100% { filter: drop-shadow(0 0 0 rgba(255,255,255,0)); }
+  }
+}
+
+/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   :root::after,
   :root::before {
