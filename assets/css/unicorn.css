@@ -1,108 +1,186 @@
 /* unicorn.css
-   Enhanced CSS-only unicorn via :root pseudo-elements (no HTML changes).
-   More detailed inline SVG (data-URI) for a clearer unicorn silhouette and colorful mane.
-   Animation and wake preserved; respects reduced-motion.
+   Detailed, "real" cute unicorn rendered via :root pseudo-elements (no HTML changes).
+   Larger SVG data-URI for richer visuals: body shading, defined muzzle, horn spirals,
+   layered colorful mane/tail, eye highlight, rosy cheek, and multiple sparkles.
+   Animation preserved; respects prefers-reduced-motion.
 */
 
 :root{
-  --surf-duration: 6s;
+  --surf-duration: 6.5s;
   --surf-delay: 0s;
-  --surf-scale: 0.95;
-  --unicorn-width: 160px;
-  --unicorn-height: 110px;
+  --surf-scale: 0.98;
+  --unicorn-width: 220px;
+  --unicorn-height: 150px;
+  --unicorn-bottom: 9vh;
 }
 
-/* Unicorn sprite as background on :root::after (decorative) */
+/* Primary decorative unicorn as a background image on :root::after */
 :root::after{
   content: "";
   position: fixed;
-  bottom: 9vh;
+  bottom: var(--unicorn-bottom);
   left: 0;
   width: var(--unicorn-width);
   height: var(--unicorn-height);
   pointer-events: none;
   z-index: 9999;
-  transform: translateX(-220px) scale(0.8);
+  transform: translateX(-300px) scale(0.8);
   opacity: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 220'><defs><linearGradient id='m1' x1='0' x2='1'><stop offset='0' stop-color='%23ff6b6b'/><stop offset='0.35' stop-color='%23ffd580'/><stop offset='0.7' stop-color='%236bb0ff'/><stop offset='1' stop-color='%23c38cff'/></linearGradient></defs><g fill='none' stroke='none' transform='scale(0.9) translate(8 8)'><!-- body --><path d='M60 150 C30 140,28 110,46 90 C64 70,110 64,150 72 C190 80,230 86,260 106 C280 118,296 144,270 154 C240 166,200 150,160 154 C140 156,110 158,90 154 C80 152,68 152,60 150Z' fill='%23ffffff' stroke='%23f0f0f0' stroke-width='2'/> <!-- legs --> <path d='M120 150 L120 190 L132 190 L134 150 Z' fill='%23ffffff' stroke='%23e6e6e6' stroke-width='1'/> <path d='M170 148 L170 190 L182 190 L184 148 Z' fill='%23ffffff' stroke='%23e6e6e6' stroke-width='1'/> <!-- head --> <path d='M64 110 C52 100,54 84,70 78 C84 72,104 74,116 84 C126 92,126 104,118 112 C110 120,86 120,72 118 Z' fill='%23ffffff' stroke='%23eaeaea' stroke-width='1.5'/> <!-- eye --> <circle cx='96' cy='98' r='4' fill='%23111'/> <!-- horn --> <path d='M74 74 L82 40 L90 74 Z' fill='url(%23m1)' stroke='%23f8d9f0' stroke-width='1'/> <!-- mane stripes --> <path d='M80 78 C72 70,66 62,58 54' stroke='url(%23m1)' stroke-width='8' stroke-linecap='round' fill='none'/> <path d='M88 84 C84 76,80 68,76 60' stroke='%23ffd580' stroke-width='6' stroke-linecap='round' fill='none'/> <path d='M92 88 C92 80,92 72,96 64' stroke='%236bb0ff' stroke-width='6' stroke-linecap='round' fill='none'/> <!-- tail --> <path d='M248 128 C268 120,284 110,298 100' stroke='url(%23m1)' stroke-width='10' stroke-linecap='round' fill='none'/> <!-- cheek blush --> <circle cx='108' cy='108' r='6' fill='%23ffd2e0' opacity='0.9'/> <!-- decorative sparkle --> <g transform='translate(220,40) scale(0.9)'><circle cx='0' cy='0' r='5' fill='%23ffd580'/><rect x='-2' y='-10' width='4' height='20' fill='%23ffd580' opacity='0.6' transform='rotate(25)'/></g></g></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 440 300' preserveAspectRatio='xMidYMid meet'>\
+  <defs>\
+    <linearGradient id='hornGrad' x1='0' x2='1'>\
+      <stop offset='0' stop-color='%23fff8d9'/>\
+      <stop offset='1' stop-color='%23ffd1f0'/>\
+    </linearGradient>\
+    <linearGradient id='mane1' x1='0' x2='1'>\
+      <stop offset='0' stop-color='%23ff6b6b'/>\
+      <stop offset='0.45' stop-color='%23ffd580'/>\
+      <stop offset='0.75' stop-color='%236bb0ff'/>\
+      <stop offset='1' stop-color='%23c38cff'/>\
+    </linearGradient>\
+    <linearGradient id='bodySh' x1='0' x2='1'>\
+      <stop offset='0' stop-color='%23ffffff' stop-opacity='1'/>\
+      <stop offset='1' stop-color='%23f2f2f6' stop-opacity='1'/>\
+    </linearGradient>\
+    <filter id='soft' x='-50%' y='-50%' width='200%' height='200%'>\
+      <feGaussianBlur stdDeviation='2' result='b'/>\
+      <feMerge><feMergeNode in='b'/><feMergeNode in='SourceGraphic'/></feMerge>\
+    </filter>\
+  </defs>\
+  <!-- shadow under unicorn -->\
+  <g transform='translate(0,8)'>\
+    <ellipse cx='220' cy='260' rx='110' ry='18' fill='%23000000' opacity='0.06'/>\
+  </g>\
+  <!-- body -->\
+  <g transform='translate(40,30)'>\
+    <path d='M80 160 C40 150,12 120,28 92 C44 64,96 56,146 66 C196 76,258 88,318 110 C360 126,392 158,364 178 C328 202,286 190,244 200 C220 206,188 212,156 208 C136 206,104 204,80 200 C68 198,54 196,44 190 Z' fill='url(%23bodySh)' stroke='%23ececf0' stroke-width='2'/>\
+    <!-- subtle inner shading -->\
+    <path d='M120 132 C100 126,92 118,102 106 C112 94,136 90,160 94 C188 99,226 106,262 118 C292 128,320 142,332 152 C310 158,278 150,248 156 C222 161,190 164,162 162 C146 161,126 158,120 154 Z' fill='%23f7f7fb' opacity='0.9'/>\
+    <!-- back leg -->\
+    <path d='M204 176 L208 236 L220 236 L224 176 Z' fill='%23ffffff' stroke='%23eaeaea' stroke-width='1'/>\
+    <!-- front leg -->\
+    <path d='M128 170 L132 224 L144 224 L148 170 Z' fill='%23ffffff' stroke='%23eaeaea' stroke-width='1'/>\
+    <!-- hoof darker -->\
+    <rect x='130' y='218' width='14' height='6' rx='2' fill='%23e0e0e5'/>\
+    <rect x='206' y='230' width='14' height='6' rx='2' fill='%23e0e0e5'/>\
+    <!-- tail with layered mane gradient strokes -->\
+    <g stroke='url(%23mane1)' stroke-width='14' stroke-linecap='round' transform='translate(240,110) rotate(12)'>\
+      <path d='M0 0 C20 -6,48 -18,86 -30' fill='none' opacity='0.95'/>\
+      <path d='M6 6 C34 -4,66 -18,98 -26' fill='none' opacity='0.9' stroke-width='10'/>\
+      <path d='M12 12 C54 -2,88 -24,124 -36' fill='none' opacity='0.85' stroke-width='8'/>\
+    </g>\
+    <!-- head -->\
+    <g transform='translate(10,-6)'>\
+      <path d='M84 80 C72 72,70 58,84 52 C98 46,118 48,132 58 C144 66,146 80,138 90 C130 100,106 104,92 102 C86 101,82 95,84 88 Z' fill='%23ffffff' stroke='%23e9e9ef' stroke-width='1.5'/>\
+      <!-- muzzle -->\
+      <path d='M96 94 C100 96,110 98,124 96' stroke='%23f0eff4' stroke-width='2' fill='none' stroke-linecap='round'/>\
+      <!-- eye with highlight -->\
+      <g transform='translate(110,72)'>\
+        <ellipse rx='8' ry='6' fill='%23121a21'/>\
+        <circle cx='-2' cy='-2' r='2' fill='%23fff' opacity='0.95'/>\
+      </g>\
+      <!-- rosy cheek -->\
+      <circle cx='122' cy='88' r='6' fill='%23ffd2e0' opacity='0.95'/>\
+      <!-- horn with spiral detail -->\
+      <g transform='translate(88,44)'>\
+        <path d='M0 0 L18 -48 L36 0 Z' fill='url(%23hornGrad)' stroke='%23fbe6ff' stroke-width='1'/>\
+        <path d='M18 -8 L16 -2 M18 -16 L14 -8 M18 -28 L12 -16' stroke='%23f6c3e8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' opacity='0.9'/>\
+      </g>\
+      <!-- mane layered colorful strands (front) -->\
+      <g transform='translate(72,48)'>\
+        <path d='M0 0 C-6 6,-18 20,-30 34' stroke='%23ff6b6b' stroke-width='12' stroke-linecap='round' fill='none'/>\
+        <path d='M6 4 C0 14,-14 34,-28 50' stroke='%23ffd580' stroke-width='10' stroke-linecap='round' fill='none'/>\
+        <path d='M14 8 C8 20,-6 40,-22 60' stroke='%236bb0ff' stroke-width='10' stroke-linecap='round' fill='none'/>\
+        <path d='M22 12 C18 28,6 48,-12 72' stroke='%23c38cff' stroke-width='8' stroke-linecap='round' fill='none'/>\
+      </g>\
+    </g>\
+    <!-- small sparkles around unicorn -->\
+    <g transform='translate(12,8)' fill='%23fff6d1' opacity='0.95'>\
+      <circle cx='320' cy='12' r='4'/>\
+      <rect x='312' y='2' width='4' height='20' rx='2' transform='rotate(30 314 12)' opacity='0.5'/>\
+    </g>\
+    <g transform='translate(0,0)' fill='%23ffd580' opacity='0.9'>\
+      <circle cx='28' cy='18' r='3'/>\
+      <circle cx='60' cy='40' r='2.5'/>\
+    </g>\
+  </g>\
+</svg>");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
   animation:
     surf-in 900ms cubic-bezier(.22,.9,.3,1) forwards,
     surf-move var(--surf-duration) ease-in-out var(--surf-delay) infinite alternate;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.08));
 }
 
-/* Entrances and motion for the unicorn */
+/* Entrance and motion keyframes */
 @keyframes surf-in{
-  from{ transform: translateX(-220px) translateY(20px) scale(.5); opacity:0; }
-  to  { transform: translateX(0) translateY(0) scale(var(--surf-scale)); opacity:1; }
+  from{ transform: translateX(-300px) translateY(30px) scale(.5); opacity:0; filter: blur(6px) opacity(0.6); }
+  to  { transform: translateX(0) translateY(0) scale(var(--surf-scale)); opacity:1; filter: none; }
 }
 
 @keyframes surf-move{
-  0%   { transform: translateX(0)   scale(var(--surf-scale)) rotate(-6deg); }
-  20%  { transform: translateX(14vw) scale(calc(var(--surf-scale)*1.02)) rotate(-2deg); }
-  40%  { transform: translateX(32vw) scale(var(--surf-scale)) rotate(1deg); }
-  60%  { transform: translateX(52vw) scale(calc(var(--surf-scale)*1.03)) rotate(3deg); }
-  80%  { transform: translateX(72vw) scale(calc(var(--surf-scale)*1.01)) rotate(-2deg); }
+  0%   { transform: translateX(0)   scale(var(--surf-scale)) rotate(-5deg); }
+  18%  { transform: translateX(12vw) scale(calc(var(--surf-scale)*1.02)) rotate(-1deg); }
+  36%  { transform: translateX(28vw) scale(calc(var(--surf-scale)*1.03)) rotate(1deg); }
+  54%  { transform: translateX(46vw) scale(calc(var(--surf-scale)*1.02)) rotate(3deg); }
+  72%  { transform: translateX(68vw) scale(var(--surf-scale)) rotate(-1deg); }
   100% { transform: translateX(92vw) scale(var(--surf-scale)) rotate(-6deg); }
 }
 
-/* Colorful wake under unicorn via :root::before */
+/* Colorful wake under unicorn via :root::before (slightly bigger, layered) */
 :root::before{
   content: "";
   position: fixed;
-  bottom: calc(9vh - 10px);
+  bottom: calc(var(--unicorn-bottom) - 12px);
   left: 0;
-  width: calc(var(--unicorn-width) * 1.1);
-  height: 16px;
+  width: calc(var(--unicorn-width) * 1.25);
+  height: 22px;
   pointer-events: none;
   z-index: 9998;
-  transform: translateX(-220px) scaleX(0.9);
+  transform: translateX(-300px) scaleX(0.95);
   opacity: 0;
-  background: linear-gradient(90deg,#ffd580 0%,#ff6b6b 40%,#6bb0ff 70%,#c38cff 100%);
+  background: linear-gradient(90deg,#ffd580 0%,#ff9aa2 28%,#ff6b6b 42%,#9ad3ff 62%,#6bb0ff 72%,#c38cff 90%);
   border-radius: 999px;
   filter: blur(6px) saturate(120%);
   mix-blend-mode: screen;
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
   animation:
     surf-in-wake 900ms cubic-bezier(.22,.9,.3,1) forwards,
     wake-move calc(var(--surf-duration) * 0.98) ease-in-out var(--surf-delay) infinite alternate;
+  opacity: 0.92;
 }
 
+/* wake entrance aligns with unicorn */
 @keyframes surf-in-wake{
-  from{ transform: translateX(-220px) translateY(10px) scale(.5); opacity:0; }
-  to  { transform: translateX(0) translateY(0) scale(1); opacity:0.95; }
+  from{ transform: translateX(-300px) translateY(12px) scale(.5); opacity:0; filter: blur(8px); }
+  to  { transform: translateX(0) translateY(0) scale(1); opacity:0.95; filter: none; }
 }
 
+/* wake movement follows similar rhythm but slightly offset */
 @keyframes wake-move{
-  0%   { transform: translateX(0)   scaleX(0.9); opacity:0.85; }
-  50%  { transform: translateX(46vw) scaleX(1) translateY(-6px); opacity:1; }
-  100% { transform: translateX(92vw) scaleX(0.9); opacity:0.85; }
+  0%   { transform: translateX(0) scaleX(0.95); opacity:0.85; }
+  50%  { transform: translateX(46vw) scaleX(1.02) translateY(-6px); opacity:1; }
+  100% { transform: translateX(92vw) scaleX(0.95); opacity:0.85; }
 }
 
-/* Slight shimmer on the unicorn by tint overlay via another pseudo (rarely used) */
-@media (prefers-reduced-motion: no-preference) {
-  :root::after{
-    /* subtle pulse */
-    animation: surf-in 900ms cubic-bezier(.22,.9,.3,1) forwards,
-               surf-move var(--surf-duration) ease-in-out var(--surf-delay) infinite alternate,
-               pulse 8s ease-in-out var(--surf-delay) infinite;
-  }
-  @keyframes pulse{
-    0% { filter: drop-shadow(0 0 0 rgba(255,255,255,0)); }
-    50% { filter: drop-shadow(0 6px 8px rgba(255,200,255,0.04)); }
-    100% { filter: drop-shadow(0 0 0 rgba(255,255,255,0)); }
-  }
+/* subtle shimmer/pulse to give life */
+@keyframes shimmer {
+  0% { filter: hue-rotate(0deg) saturate(100%); }
+  50% { filter: hue-rotate(6deg) saturate(112%); }
+  100% { filter: hue-rotate(0deg) saturate(100%); }
 }
+:root::after { animation: surf-in 900ms cubic-bezier(.22,.9,.3,1) forwards, surf-move var(--surf-duration) ease-in-out var(--surf-delay) infinite alternate, shimmer 10s ease-in-out 2s infinite; }
 
-/* Respect reduced motion */
+/* Respect reduced motion: simplify to a static decorative placement */
 @media (prefers-reduced-motion: reduce) {
   :root::after,
   :root::before {
     animation: none !important;
     transform: translateX(6vw) scale(0.95) !important;
     opacity: 1 !important;
+    filter: none !important;
   }
 }
