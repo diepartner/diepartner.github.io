@@ -1,0 +1,97 @@
+/* unicorn.css
+   CSS-only unicorn rendered via :root::after (no HTML changes).
+   Purely decorative; animation runs with CSS variables and respects reduced-motion.
+*/
+
+/* Defaults for surf animation; can be overridden with :root custom properties */
+:root{
+  --surf-duration: 6s;
+  --surf-delay: 0s;
+  --surf-scale: 0.92;
+  --unicorn-width: 120px;
+  --unicorn-height: 80px;
+}
+
+/* Create the decorative unicorn as a pseudo-element on :root so no HTML change is required */
+:root::after{
+  content: "";
+  position: fixed;
+  bottom: 8vh;
+  left: 0;
+  width: var(--unicorn-width);
+  height: var(--unicorn-height);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translateX(-140px) scale(0.9);
+  opacity: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 80'><g fill='none' stroke='none'><path d='M10 60 C14 50, 26 46, 38 48 C50 50, 60 44, 72 44 C84 44,96 50,106 52' stroke='%23ffffff' stroke-width='4' stroke-linecap='round' fill='none'/><ellipse cx='36' cy='52' rx='6' ry='4' fill='%23ffffff'/><path d='M40 38 C44 30,54 28,60 36' fill='%23ffd580' stroke='%23ffefc9' stroke-width='1'/><polygon points='60,36 66,22 70,36' fill='%23ff6b6b'/><rect x='30' y='44' width='10' height='8' rx='2' ry='2' fill='%23ffffff'/><circle cx='34' cy='50' r='1.5' fill='%23111'/></g></svg>");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  will-change: transform, opacity;
+  animation:
+    surf-in 900ms ease-out forwards,
+    surf-move var(--surf-duration) ease-in-out var(--surf-delay) infinite alternate;
+}
+
+/* entrance animation */
+@keyframes surf-in{
+  from{ transform: translateX(-140px) translateY(20px) scale(.6); opacity:0; }
+  to  { transform: translateX(0) translateY(0) scale(var(--surf-scale)); opacity:1; }
+}
+
+/* back-and-forth path across wide parts of the viewport */
+@keyframes surf-move{
+  0%   { transform: translateX(0) scale(var(--surf-scale)) rotate(-6deg); }
+  12%  { transform: translateX(8vw)  scale(calc(var(--surf-scale) * 1.02)) rotate(-2deg); }
+  25%  { transform: translateX(18vw) scale(var(--surf-scale)) rotate(0deg); }
+  40%  { transform: translateX(34vw) scale(calc(var(--surf-scale) * 1.04)) rotate(4deg); }
+  60%  { transform: translateX(56vw) scale(var(--surf-scale)) rotate(-3deg); }
+  80%  { transform: translateX(78vw) scale(calc(var(--surf-scale) * 1.02)) rotate(2deg); }
+  100% { transform: translateX(92vw) scale(var(--surf-scale)) rotate(-6deg); }
+}
+
+/* colorful wake under the unicorn, implemented as another pseudo-element via :root::before */
+:root::before{
+  content: "";
+  position: fixed;
+  bottom: calc(8vh - 6px);
+  left: 0;
+  width: var(--unicorn-width);
+  height: 12px;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translateX(-140px);
+  opacity: 0;
+  background: linear-gradient(90deg,#ffd580,#ff6b6b,#6bb0ff);
+  border-radius: 999px;
+  filter: blur(6px);
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+  animation:
+    surf-in-wake 900ms ease-out forwards,
+    wake-move var(--surf-duration) ease-in-out var(--surf-delay) infinite alternate;
+}
+
+/* wake entrance aligns with unicorn */
+@keyframes surf-in-wake{
+  from{ transform: translateX(-140px) translateY(10px) scale(.6); opacity:0; }
+  to  { transform: translateX(0) translateY(0) scale(1); opacity:0.9; }
+}
+
+/* wake follows same general motion but with subtler scaling */
+@keyframes wake-move{
+  0%   { transform: translateX(0) scaleX(0.9); opacity:0.85; }
+  50%  { transform: translateX(46vw) scaleX(1)  translateY(-6px); opacity:1; }
+  100% { transform: translateX(92vw) scaleX(0.9); opacity:0.85; }
+}
+
+/* Respect reduced motion: simplify to a static decorative placement */
+@media (prefers-reduced-motion: reduce) {
+  :root::after,
+  :root::before {
+    animation: none !important;
+    transform: translateX(6vw) scale(0.95) !important;
+    opacity: 1 !important;
+  }
+}
