@@ -13,8 +13,12 @@
   --safe-margin: 4vw;   /* margin from viewport edges to keep wake visible */
 }
 
-/* Decorative rainbow-like wake */
-:root::before {
+/* Decorative rainbow-like wake attached to .box so it can be triggered by hover/focus/touch.
+   Note: placing the fixed-position wake on .box::after lets us toggle it with .box:hover
+   and .box:focus-within in pure CSS. This avoids needing JavaScript to toggle a global
+   :root::before element from a child element.
+*/
+.box::after {
   content: "";
   position: fixed;
   bottom: calc(var(--bottom) - 12px);
@@ -39,15 +43,30 @@
   filter: blur(6px) saturate(120%);
   mix-blend-mode: screen;
   will-change: transform, opacity, filter;
+  /* Keep animations defined but do not autoplay; they'll be enabled by the trigger */
+  animation: none;
+  max-width: calc(100vw - (var(--safe-margin) * 2)); /* never wider than visible area */
+  transition: opacity 220ms cubic-bezier(.22,.9,.3,1), transform 220ms cubic-bezier(.22,.9,.3,1);
+}
+
+/* Activate animations when .box is hovered/focused-within (desktop/keyboard) or when heading is active (touch)
+   - .box:hover::after covers mouse hover
+   - .box:focus-within::after covers keyboard focus when heading receives tabindex="0"
+   - .box h1:active::after aims to cover quick touch press on the heading (some mobile browsers apply :active)
+   Note: Some mobile browsers do not expose a persistent :hover state; tapping will show the animation
+   only while the element is active — which is typically acceptable for a transient wake effect.
+*/
+.box:hover::after,
+.box:focus-within::after,
+.box h1:active::after {
   animation:
     enter 900ms cubic-bezier(.22, .9, .3, 1) forwards,
     move calc(var(--duration) * 0.98) ease-in-out var(--delay) infinite alternate,
     shimmer 10s ease-in-out 2s infinite;
-  opacity: 0.92;
-  max-width: calc(100vw - (var(--safe-margin) * 2)); /* never wider than visible area */
+  opacity: 0.95;
 }
 
-/* entrance */
+/* Entrance */
 @keyframes enter {
   from {
     transform: translateX(-120px) translateY(12px) scale(.5);
@@ -61,8 +80,10 @@
   }
 }
 
-/* horizontal travel constrained to remain within safe margins
+/* Horizontal travel constrained to remain within safe margins.
    We animate translateX by percentage of the available horizontal range.
+   This preserves the intended "wake travels across the width of the viewport"
+   while respecting --safe-margin so it never runs off-screen.
 */
 @keyframes move {
   0% {
@@ -79,7 +100,7 @@
   }
 }
 
-/* gentle color/saturation shimmer */
+/* Gentle color/saturation shimmer */
 @keyframes shimmer {
   0% {
     filter: hue-rotate(0deg) saturate(100%);
@@ -92,9 +113,9 @@
   }
 }
 
-/* reduced-motion preference */
+/* Reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
-  :root::before {
+  .box::after {
     animation: none !important;
     transform: translateX(var(--safe-margin)) scale(0.95) !important;
     opacity: 1 !important;
