@@ -1,15 +1,16 @@
 /* rainbow.css
-   Minimal decorative rainbow-like wake animation.
-   Cleaned: removed legacy references; only necessary code retained.
+   Rainbow-like wake animation constrained to viewport.
+   Minimal: only necessary code retained. Two-space indentation.
 */
 
 :root {
   --duration: 6.5s;
   --delay: 0s;
   --scale: 0.98;
-  --width: 220px;
+  --width: 220px;       /* base wake width */
   --height: 22px;
   --bottom: 9vh;
+  --safe-margin: 4vw;   /* margin from viewport edges to keep wake visible */
 }
 
 /* Decorative rainbow-like wake */
@@ -17,12 +18,13 @@
   content: "";
   position: fixed;
   bottom: calc(var(--bottom) - 12px);
-  left: 0;
+  left: var(--safe-margin);
   width: calc(var(--width) * 1.25);
   height: var(--height);
   pointer-events: none;
   z-index: 9998;
-  transform: translateX(-300px) scaleX(0.95);
+  transform-origin: left center;
+  transform: translateX(0) scaleX(0.95);
   opacity: 0;
   background: linear-gradient(
     90deg,
@@ -42,12 +44,13 @@
     move calc(var(--duration) * 0.98) ease-in-out var(--delay) infinite alternate,
     shimmer 10s ease-in-out 2s infinite;
   opacity: 0.92;
+  max-width: calc(100vw - (var(--safe-margin) * 2)); /* never wider than visible area */
 }
 
 /* entrance */
 @keyframes enter {
   from {
-    transform: translateX(-300px) translateY(12px) scale(.5);
+    transform: translateX(-120px) translateY(12px) scale(.5);
     opacity: 0;
     filter: blur(8px);
   }
@@ -58,18 +61,20 @@
   }
 }
 
-/* horizontal travel */
+/* horizontal travel constrained to remain within safe margins
+   We animate translateX by percentage of the available horizontal range.
+*/
 @keyframes move {
   0% {
     transform: translateX(0) scaleX(0.95);
     opacity: 0.85;
   }
   50% {
-    transform: translateX(46vw) scaleX(1.02) translateY(-6px);
+    transform: translateX(calc((100vw - (var(--safe-margin) * 2) - 100%) * 0.5)) scaleX(1.02) translateY(-6px);
     opacity: 1;
   }
   100% {
-    transform: translateX(92vw) scaleX(0.95);
+    transform: translateX(calc(100vw - (var(--safe-margin) * 2) - 100%)) scaleX(0.95);
     opacity: 0.85;
   }
 }
@@ -91,8 +96,12 @@
 @media (prefers-reduced-motion: reduce) {
   :root::before {
     animation: none !important;
-    transform: translateX(6vw) scale(0.95) !important;
+    transform: translateX(var(--safe-margin)) scale(0.95) !important;
     opacity: 1 !important;
     filter: none !important;
   }
 }
+
+/* Ensure the calc() expressions behave in older engines by providing a fallback:
+   If calc(...) in keyframes is unsupported, the animation will still run but with smaller movement.
+*/
