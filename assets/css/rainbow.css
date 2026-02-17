@@ -1,166 +1,98 @@
 /* rainbow.css
-   Curved rainbow decorative background (inline SVG data-URI)
-   Reformatted for consistency. Original behavior preserved.
+   Minimal decorative rainbow-like wake animation.
+   Cleaned: removed legacy references; only necessary code retained.
 */
 
 :root {
-    --surf-duration: 6.5s;
-    --surf-delay: 0s;
-    --surf-scale: 0.98;
-    --unicorn-width: 220px;
-    --unicorn-height: 150px;
-    --unicorn-bottom: 9vh;
+  --duration: 6.5s;
+  --delay: 0s;
+  --scale: 0.98;
+  --width: 220px;
+  --height: 22px;
+  --bottom: 9vh;
 }
 
-/* Primary decorative curved rainbow as a background image on :root::after */
-:root::after {
-    content: "";
-    position: fixed;
-    bottom: var(--unicorn-bottom);
-    left: 0;
-    width: var(--unicorn-width);
-    height: var(--unicorn-height);
-    pointer-events: none;
-    z-index: 9999;
-    transform: translateX(-300px) scale(0.8);
-    opacity: 0;
-    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 420' preserveAspectRatio='xMidYMid meet'%3E%3Cdefs%3E%3ClinearGradient id='r1' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ff9bd6'/%3E%3Cstop offset='1' stop-color='%23ff6b9f'/%3E%3C/linearGradient%3E%3ClinearGradient id='r2' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffd27a'/%3E%3Cstop offset='1' stop-color='%23ffb86b'/%3E%3C/linearGradient%3E%3ClinearGradient id='r3' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%239be6ff'/%3E%3Cstop offset='1' stop-color='%236bb0ff'/%3E%3C/linearGradient%3E%3ClinearGradient id='r4' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23c1a0ff'/%3E%3Cstop offset='1' stop-color='%23907bff'/%3E%3C/linearGradient%3E%3Cfilter id='softBlur' x='-40%25' y='-40%25' width='180%25' height='180%25'%3E%3CfeGaussianBlur stdDeviation='1.8' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg transform='translate(0,40)' filter='url(%23softBlur)' opacity='0.98'%3E%3Cpath d='M28 300 C120 140,440 140,532 300' stroke='url(%23r4)' stroke-width='28' stroke-linecap='round' fill='none'/%3E%3Cpath d='M42 312 C124 168,436 168,518 312' stroke='url(%23r3)' stroke-width='24' stroke-linecap='round' fill='none'/%3E%3Cpath d='M58 324 C132 196,428 196,502 324' stroke='url(%23r2)' stroke-width='20' stroke-linecap='round' fill='none'/%3E%3Cpath d='M74 336 C140 220,412 220,486 336' stroke='url(%23r1)' stroke-width='16' stroke-linecap='round' fill='none'/%3E%3C/g%3E%3Cellipse cx='280' cy='380' rx='140' ry='14' fill='%23000000' opacity='0.04'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    will-change: transform, opacity, filter;
-    animation:
-        surf-in 900ms cubic-bezier(.22, .9, .3, 1) forwards,
-        surf-move var(--surf-duration) ease-in-out var(--surf-delay) infinite alternate;
-    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.08));
-}
-
-/* Entrance and motion keyframes */
-@keyframes surf-in {
-    from {
-        transform: translateX(-300px) translateY(30px) scale(.5);
-        opacity: 0;
-        filter: blur(6px) opacity(0.6);
-    }
-    to {
-        transform: translateX(0) translateY(0) scale(var(--surf-scale));
-        opacity: 1;
-        filter: none;
-    }
-}
-
-@keyframes surf-move {
-    0% {
-        transform: translateX(0) scale(var(--surf-scale)) rotate(-5deg);
-    }
-    18% {
-        transform: translateX(12vw) scale(calc(var(--surf-scale) * 1.02)) rotate(-1deg);
-    }
-    36% {
-        transform: translateX(28vw) scale(calc(var(--surf-scale) * 1.03)) rotate(1deg);
-    }
-    54% {
-        transform: translateX(46vw) scale(calc(var(--surf-scale) * 1.02)) rotate(3deg);
-    }
-    72% {
-        transform: translateX(68vw) scale(var(--surf-scale)) rotate(-1deg);
-    }
-    100% {
-        transform: translateX(92vw) scale(var(--surf-scale)) rotate(-6deg);
-    }
-}
-
-/* Colorful wake under rainbow via :root::before (slightly bigger, layered) */
+/* Decorative rainbow-like wake */
 :root::before {
-    content: "";
-    position: fixed;
-    bottom: calc(var(--unicorn-bottom) - 12px);
-    left: 0;
-    width: calc(var(--unicorn-width) * 1.25);
-    height: 22px;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translateX(-300px) scaleX(0.95);
+  content: "";
+  position: fixed;
+  bottom: calc(var(--bottom) - 12px);
+  left: 0;
+  width: calc(var(--width) * 1.25);
+  height: var(--height);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translateX(-300px) scaleX(0.95);
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    #ffd580 0%,
+    #ff9aa2 28%,
+    #ff6b6b 42%,
+    #9ad3ff 62%,
+    #6bb0ff 72%,
+    #c38cff 90%
+  );
+  border-radius: 999px;
+  filter: blur(6px) saturate(120%);
+  mix-blend-mode: screen;
+  will-change: transform, opacity, filter;
+  animation:
+    enter 900ms cubic-bezier(.22, .9, .3, 1) forwards,
+    move calc(var(--duration) * 0.98) ease-in-out var(--delay) infinite alternate,
+    shimmer 10s ease-in-out 2s infinite;
+  opacity: 0.92;
+}
+
+/* entrance */
+@keyframes enter {
+  from {
+    transform: translateX(-300px) translateY(12px) scale(.5);
     opacity: 0;
-    background: linear-gradient(
-        90deg,
-        #ffd580 0%,
-        #ff9aa2 28%,
-        #ff6b6b 42%,
-        #9ad3ff 62%,
-        #6bb0ff 72%,
-        #c38cff 90%
-    );
-    border-radius: 999px;
-    filter: blur(6px) saturate(120%);
-    mix-blend-mode: screen;
-    will-change: transform, opacity, filter;
-    animation:
-        surf-in-wake 900ms cubic-bezier(.22, .9, .3, 1) forwards,
-        wake-move calc(var(--surf-duration) * 0.98) ease-in-out var(--surf-delay) infinite alternate;
-    opacity: 0.92;
+    filter: blur(8px);
+  }
+  to {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 0.95;
+    filter: none;
+  }
 }
 
-/* wake entrance aligns with rainbow */
-@keyframes surf-in-wake {
-    from {
-        transform: translateX(-300px) translateY(12px) scale(.5);
-        opacity: 0;
-        filter: blur(8px);
-    }
-    to {
-        transform: translateX(0) translateY(0) scale(1);
-        opacity: 0.95;
-        filter: none;
-    }
+/* horizontal travel */
+@keyframes move {
+  0% {
+    transform: translateX(0) scaleX(0.95);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateX(46vw) scaleX(1.02) translateY(-6px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(92vw) scaleX(0.95);
+    opacity: 0.85;
+  }
 }
 
-/* wake movement follows similar rhythm but slightly offset */
-@keyframes wake-move {
-    0% {
-        transform: translateX(0) scaleX(0.95);
-        opacity: 0.85;
-    }
-    50% {
-        transform: translateX(46vw) scaleX(1.02) translateY(-6px);
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(92vw) scaleX(0.95);
-        opacity: 0.85;
-    }
-}
-
-/* subtle shimmer/pulse to give life */
+/* gentle color/saturation shimmer */
 @keyframes shimmer {
-    0% {
-        filter: hue-rotate(0deg) saturate(100%);
-    }
-    50% {
-        filter: hue-rotate(6deg) saturate(112%);
-    }
-    100% {
-        filter: hue-rotate(0deg) saturate(100%);
-    }
+  0% {
+    filter: hue-rotate(0deg) saturate(100%);
+  }
+  50% {
+    filter: hue-rotate(6deg) saturate(112%);
+  }
+  100% {
+    filter: hue-rotate(0deg) saturate(100%);
+  }
 }
 
-/* ensure shimmer also applied */
-:root::after {
-    animation:
-        surf-in 900ms cubic-bezier(.22, .9, .3, 1) forwards,
-        surf-move var(--surf-duration) ease-in-out var(--surf-delay) infinite alternate,
-        shimmer 10s ease-in-out 2s infinite;
-}
-
-/* Respect reduced motion: simplify to a static decorative placement */
+/* reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
-    :root::after,
-    :root::before {
-        animation: none !important;
-        transform: translateX(6vw) scale(0.95) !important;
-        opacity: 1 !important;
-        filter: none !important;
-    }
+  :root::before {
+    animation: none !important;
+    transform: translateX(6vw) scale(0.95) !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
 }
-
-/* Debugging tip: If the SVG doesn't render, paste the data-URI into a browser address bar to validate and inspect encoding. */
